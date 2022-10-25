@@ -1,7 +1,15 @@
 import React, {useEffect} from 'react'
 import ReactDOM from 'react-dom/client'
 import configureStore from './store/store'
-import {titleChanged, taskDeleted, completeTask, getTasks, loadTasks, getTasksLoadingStatus} from './store/task'
+import {
+    titleChanged,
+    taskDeleted,
+    completeTask,
+    getTasks,
+    loadTasks,
+    getTasksLoadingStatus,
+    createTask
+} from './store/task'
 import {Provider, useSelector, useDispatch} from 'react-redux'
 import {getError} from './store/errors'
 
@@ -33,11 +41,10 @@ const App = () => {
         return <h1>{error}</h1>
     }
 
-
     return (
         <>
             <h1>App</h1>
-
+            <button onClick={() => dispatch(createTask())}>Добавить задачу</button>
             <ul>
                 {state.map(el => <li key={el.id}>
                     <p>{el.title}</p>
@@ -49,8 +56,6 @@ const App = () => {
                 </li>)}
             </ul>
         </>)
-
-
 }
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
