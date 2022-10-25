@@ -9,6 +9,7 @@ const taskSlice = createSlice({
     initialState,
     reducers: {
         received(state, action) {
+            console.log(action)
             state.entities = action.payload
             state.isLoading = false
         },
@@ -22,14 +23,17 @@ const taskSlice = createSlice({
         taskRequested(state) {
             state.isLoading = true
         },
-        taskRequestFailed(state, action) {
+        taskRequestFailed(state) {
             state.isLoading = false
+        },
+        addTask(state, action) {
+            state.entities.push(action.payload)
         }
     }
 })
 
 const {actions, reducer: taskReducer} = taskSlice
-const {update, remove, received, taskRequested, taskRequestFailed} = actions
+const {update, remove, received, taskRequested, taskRequestFailed, addTask} = actions
 
 export const loadTasks = () => async (dispatch) => {
     dispatch(taskRequested())
@@ -48,7 +52,7 @@ export const createTask = () => async (dispatch) => {
             title: 'Hello World!',
             completed: false
         })
-        console.log(data)
+        dispatch(addTask(data))
     } catch (error) {
         console.log(error)
     }
