@@ -40,7 +40,18 @@ export const loadTasks = () => async (dispatch) => {
         dispatch(taskRequestFailed())
         dispatch(setError(error.message))
     }
+}
 
+export const createTask = () => async (dispatch) => {
+    try {
+        const data = await todosService.create({
+            title: 'Hello World!',
+            completed: false
+        })
+        console.log(data)
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 export const completeTask = (id) => (dispatch, getState) => {

@@ -1,9 +1,18 @@
 import React, {useEffect} from 'react'
 import ReactDOM from 'react-dom/client'
 import configureStore from './store/store'
-import {titleChanged, taskDeleted, completeTask, getTasks, loadTasks, getTasksLoadingStatus} from './store/task'
+import {
+    titleChanged,
+    taskDeleted,
+    completeTask,
+    getTasks,
+    loadTasks,
+    getTasksLoadingStatus,
+    createTask
+} from './store/task'
 import {Provider, useSelector, useDispatch} from 'react-redux'
 import {getError} from './store/errors'
+import axios from 'axios'
 
 const store = configureStore()
 
@@ -25,6 +34,15 @@ const App = () => {
         dispatch(taskDeleted(taskId))
     }
 
+    const task = async () => {
+        try {
+            const {data} = await axios.post('https://jsonplaceholder.typicode.com/todos/', {title: 'hello', completed: false})
+            console.log(data)
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
     if(isLoading) {
         return <h1>Loading...</h1>
     }
@@ -37,7 +55,7 @@ const App = () => {
     return (
         <>
             <h1>App</h1>
-
+            <button onClick={dispatch(createTask)}>Добавить задачу</button>
             <ul>
                 {state.map(el => <li key={el.id}>
                     <p>{el.title}</p>
